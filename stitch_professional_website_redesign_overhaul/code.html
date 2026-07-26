@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FLUX CORP | Precision Engineering &amp; Mobility Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .kinetic-border {
+            position: relative;
+        }
+        .kinetic-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .kinetic-border:hover::after {
+            width: 100%;
+        }
+        .gradient-dull-blue {
+            background: linear-gradient(135deg, #78a2c0 0%, #1a456e 100%);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#40484e",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bfc7cf",
+                        "surface-dim": "#d9dadb",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#46464d",
+                        "tertiary-container": "#191c1f",
+                        "surface-container": "#EDEEEF",
+                        "background": "#f8f9fa",
+                        "on-primary-container": "#E1E3E4",
+                        "outline": "#77767c",
+                        "tertiary-fixed": "#e1e2e7",
+                        "on-tertiary-fixed": "#191c1f",
+                        "primary-container": "#1a1b21",
+                        "on-background": "#191c1d",
+                        "on-secondary-container": "#5d656c",
+                        "outline-variant": "#C5C6CA",
+                        "inverse-surface": "#2e3132",
+                        "inverse-primary": "#c7c5ce",
+                        "on-surface-variant": "#46464b",
+                        "surface": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-container": "#828488",
+                        "secondary-fixed": "#dbe3ec",
+                        "primary-fixed": "#e3e1ea",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-container": "#dbe3ec",
+                        "surface-container-high": "#e7e8e9",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary-fixed": "#1a1b21",
+                        "tertiary": "#000001",
+                        "surface-variant": "#e1e3e4",
+                        "secondary": "#575f66",
+                        "primary-fixed-dim": "#c7c5ce",
+                        "primary": "#000000",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary-fixed": "#151c22",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c5c6cb",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#5d5e65",
+                        "on-tertiary-fixed-variant": "#44474b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "section-padding": "96px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "base": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-white overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<nav class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">FLUX CORP</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b border-primary pb-1 kinetic-border" href="#">About</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-secondary transition-colors duration-300 hover:text-primary kinetic-border" href="#">Services</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-secondary transition-colors duration-300 hover:text-primary kinetic-border" href="#">Industries</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-secondary transition-colors duration-300 hover:text-primary kinetic-border" href="#">Projects</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-secondary transition-colors duration-300 hover:text-primary kinetic-border" href="#">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 font-label-sm text-label-sm uppercase tracking-widest hover:opacity-90 transition-opacity">
+                Request Quote
+            </button>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex items-center overflow-hidden bg-primary-container">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 gradient-dull-blue opacity-80"></div>
+<!-- Technical Background Pattern -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+<div class="text-white space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 border border-white/20 bg-white/5 uppercase tracking-widest font-label-sm text-label-sm">
+<span class="w-2 h-2 bg-white rounded-full"></span>
+                        Precision Engineering
+                    </div>
+<h1 class="font-headline-xl text-headline-xl text-white leading-tight">
+                        Engineering the <br/> <span class="text-white/80">Future of</span> <br/>
+<span class="relative">
+                            Mobility
+                            <span class="absolute bottom-2 left-0 w-full h-1 bg-white/30"></span>
+</span>
+</h1>
+<p class="font-body-lg text-body-lg text-white/80 max-w-lg">
+                        From concept design to Class A surfacing — precision automotive engineering for global OEMs. We measure success in microns and impact in generations.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-white text-primary px-8 py-4 font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors flex items-center gap-2">
+                            Request Quote <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="border border-white/30 text-white px-8 py-4 font-label-sm text-label-sm uppercase tracking-widest hover:bg-white/10 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                            Our Services
+                        </button>
+</div>
+</div>
+<div class="relative hidden md:block">
+<img class="w-full h-auto transform scale-110 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" data-alt="A highly detailed 3D technical wireframe and exploded view of a futuristic performance vehicle, showing chassis components and powertrain in high resolution against a deep blue atmospheric background. The lighting is cold and clinical, emphasizing mechanical precision and aerodynamic surfacing with sharp highlights and deep shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD20aD455yo8qR49I_Wvi5LKW3f3fwHiRzAi_z_BaPU5EfINcebKxFi41yhAixPVeDcSkWHO3jD8UEWUqd4TVsyfArtl2ltHEb3Xds80XIpMF46o4kD74ZQQCnPZwq1wi9aal4RYmfZdFG_ROKVkiTvKbC5ZC6F5duhYQAFEX-xWblVdq43h_rbd08-CSUw_PM3sFUXTMmDPnYWVjEIzdoJx4JWL0bf_MJR2gHCV6xRfNS9l_5IpUUQ"/>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 animate-bounce">
+<span class="font-label-sm text-[10px] uppercase tracking-widest">Scroll to rotate</span>
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Bar -->
+<section class="bg-primary text-white py-12">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="text-center md:text-left">
+<div class="font-headline-xl text-headline-xl mb-1">500+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-white/60">Projects Delivered</div>
+</div>
+<div class="text-center md:text-left">
+<div class="font-headline-xl text-headline-xl mb-1">150+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-white/60">Happy Clients</div>
+</div>
+<div class="text-center md:text-left">
+<div class="font-headline-xl text-headline-xl mb-1">15+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-white/60">Years Experience</div>
+</div>
+<div class="text-center md:text-left">
+<div class="font-headline-xl text-headline-xl mb-1">200+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-white/60">Expert Engineers</div>
+</div>
+</div>
+</section>
+<!-- Engineering Expertise (White Panel) -->
+<section class="bg-surface py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-2xl">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-secondary block mb-4">Core Competencies</span>
+<h2 class="font-headline-xl text-headline-xl text-primary leading-none uppercase">Technical <br/>Sophistication.</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                        We leverage advanced simulation, materials science, and computational design to solve the industry's most complex structural challenges.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="group border border-outline-variant p-10 hover:border-primary transition-colors duration-500 bg-white">
+<span class="material-symbols-outlined text-[48px] text-primary mb-8" style="font-variation-settings: 'wght' 200;">architecture</span>
+<h3 class="font-headline-md text-headline-md mb-4 uppercase">Concept Design</h3>
+<p class="text-on-surface-variant mb-6">Translating visionary ideas into manufacturable blueprints with radical efficiency.</p>
+<a class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-transparent group-hover:border-primary transition-all" href="#">Explore Service <span class="material-symbols-outlined text-[16px]">chevron_right</span></a>
+</div>
+<div class="group border border-outline-variant p-10 hover:border-primary transition-colors duration-500 bg-white">
+<span class="material-symbols-outlined text-[48px] text-primary mb-8" style="font-variation-settings: 'wght' 200;">precision_manufacturing</span>
+<h3 class="font-headline-md text-headline-md mb-4 uppercase">Class A Surfacing</h3>
+<p class="text-on-surface-variant mb-6">Mastery of aesthetic surfaces that meet the rigorous standards of global automotive OEMs.</p>
+<a class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-transparent group-hover:border-primary transition-all" href="#">Explore Service <span class="material-symbols-outlined text-[16px]">chevron_right</span></a>
+</div>
+<div class="group border border-outline-variant p-10 hover:border-primary transition-colors duration-500 bg-white">
+<span class="material-symbols-outlined text-[48px] text-primary mb-8" style="font-variation-settings: 'wght' 200;">analytics</span>
+<h3 class="font-headline-md text-headline-md mb-4 uppercase">CAE Analysis</h3>
+<p class="text-on-surface-variant mb-6">Advanced stress, thermal, and fluid dynamics simulations to optimize performance.</p>
+<a class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-transparent group-hover:border-primary transition-all" href="#">Explore Service <span class="material-symbols-outlined text-[16px]">chevron_right</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Industry Sectors (Grey Panel - Bento Grid) -->
+<section class="bg-surface-container-low py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="mb-16">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-secondary block mb-4">Verticals</span>
+<h2 class="font-headline-xl text-headline-xl text-primary leading-none uppercase">Industries We Serve.</h2>
+</div>
+<div class="bento-grid">
+<div class="col-span-12 md:col-span-8 group relative h-[400px] overflow-hidden border border-outline-variant">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A clean, minimalist white-on-white image of a precision aerospace component machined from high-grade titanium. The lighting is soft and directional, highlighting the complex curves and tool paths on the metal surface. The composition is architectural and professional, fitting an industrial engineering aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnxVukqX2FFSsDSKSscbMCTlP6NUmL-0aRdGfCwG-yluBWjombxRrAb1PR-LkS2dKAj5shJvLym9vbxGWemwrDKjg8okwxoMUMTCk6iJx6YKGQxjgciXdW44_EqNYHXC9KougjhK36ZKT953fW3qoSs8G-Vdy1APxPWezj-Weoz3n0g8C69pRKl7CreOjz223cxE_kv5SJnnIz69zufTSA7ory5OqTFx87bwk1EGs_-FWUxwwEVHc3')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-2">Aerospace</h4>
+<p class="text-white/70 max-w-md">Ultra-lightweight structural components for the next generation of flight.</p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 group relative h-[400px] overflow-hidden border border-outline-variant">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A macro shot of a sleek electric vehicle charging port and carbon fiber body panel. The surface has a subtle metallic sheen with reflections of a modern industrial facility. The color palette is monochromatic with deep grays and blacks, emphasizing high-tech mobility materials." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVAz1DFN3p__EMuEOjbj4VRD-wM5VVJL9m5wRGiGjlvNNPITpx0h9HG3CtzHmqtQl9RW7Zfp4j7ReQtnHmJ_znoNzTIYbzgoyRGTwM90J2dYtr-kSReve957j13FeNZykXbD0663dL__ZNMXUhiZC9znwNJsQio8NxAh-cRmTlb0vbHXgsHKBgN6COFPGcIaK8XCK-hbfe-frp52F0qJGWSGLArwIIyM7bwW7Zc___F3nSOwvX2ARe')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-2">Mobility</h4>
+<p class="text-white/70">Full-vehicle engineering for electric and autonomous platforms.</p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 group relative h-[400px] overflow-hidden border border-outline-variant">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="An abstract visualization of a data center corridor with servers and glowing blue indicator lights. The perspective is symmetrical and futuristic, highlighting the infrastructure of modern computing. The style is clean, technical, and high-contrast." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAA_Ixbibg9KEC1gPBTDHDOyCkR37vrdAfoG0hQVW0q8mzRIIkDxVrXuVuTN86ZRBU9rZ9-HeL4MNkf9b-SiXQv4khriA3XN-h61fHr6ZtJLzYjfsmljFq62jsMFuG3RUtifIs2KgsQMkikQevIiUXxiRg0QZmdsyDTv_M72_j6Yyg8o-PRiNJmPRks512p7ViP1Z5Ma6Gy4ivAyivep-Rdw8-j80cdtxHRZGIYmPqle2voW7EEJGzk')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-2">Data Infra</h4>
+<p class="text-white/70">High-density cooling and structural solutions for large-scale data centers.</p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-8 group relative h-[400px] overflow-hidden border border-outline-variant">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A modern industrial facility interior showing large-scale automated machinery and robotic arms in a pristine, brightly lit environment. The aesthetic is monochromatic and orderly, emphasizing industrial efficiency and precision engineering." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCMjzjZOXJx-Or9DHzsu3ZRDBY8DBltc5ja3FfnOFaMXcDv4sGBEfSLmZv30pcYwGYSOfR8nCO8UgKaMb_CaHgWXoM7gqYvLWeWbS6zjMXilGaEMeHzHYQMZyXLbrIX-rHgcGKO4RCjIuZA7NkNCbB9BT4ATibF3SCSJhSh2TeAiI_BQVY13IGeIpQ_naf1kUXfAtV1MORbK1KZviR5L7xQQnqe8Pfz1RbvSchkN0SyC7cv9_lFh7t9')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-2">Industrial</h4>
+<p class="text-white/70 max-w-md">Robotics and automation workflows for advanced manufacturing plants.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Client Section (White Panel) -->
+<section class="bg-surface py-20 border-y border-outline-variant">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<p class="font-label-sm text-label-sm uppercase tracking-[0.5em] text-secondary text-center mb-12">Trusted by Global Leaders</p>
+<div class="flex flex-wrap justify-between items-center gap-12 grayscale opacity-40">
+<span class="font-headline-md font-black tracking-tighter">AERO-CORE</span>
+<span class="font-headline-md font-black tracking-tighter">NEXUS MOBILITY</span>
+<span class="font-headline-md font-black tracking-tighter">TITAN HEAVY</span>
+<span class="font-headline-md font-black tracking-tighter">QUANTUM DATA</span>
+<span class="font-headline-md font-black tracking-tighter">ORBITAL SYSTEMS</span>
+</div>
+</div>
+</section>
+<!-- Contact / Quote Form (Grey Panel) -->
+<section class="bg-surface-container py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-24">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-primary leading-tight uppercase mb-8">Let's build <br/> the future.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                            Our team of lead engineers is ready to discuss your next breakthrough project. Contact us for a technical consultation.
+                        </p>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 300;">location_on</span>
+<div>
+<h5 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Global HQ</h5>
+<p class="text-on-surface-variant">1200 Precision Way, Suite 400<br/>Silicon Valley, CA 94025</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 300;">mail</span>
+<div>
+<h5 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Inquiries</h5>
+<p class="text-on-surface-variant">engineering@flux-corp.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-10 border border-outline-variant">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">First Name</label>
+<input class="w-full border-outline-variant focus:border-primary focus:ring-0 rounded-none h-12 px-4 transition-colors" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Last Name</label>
+<input class="w-full border-outline-variant focus:border-primary focus:ring-0 rounded-none h-12 px-4 transition-colors" type="text"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Email Address</label>
+<input class="w-full border-outline-variant focus:border-primary focus:ring-0 rounded-none h-12 px-4 transition-colors" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Project Details</label>
+<textarea class="w-full border-outline-variant focus:border-primary focus:ring-0 rounded-none p-4 transition-colors" rows="4"></textarea>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 font-label-sm text-label-sm uppercase tracking-[0.2em] hover:opacity-90 transition-opacity" type="submit">
+                                Submit Request
+                            </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-20 max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-lg text-headline-lg font-black text-primary mb-6 block">FLUX CORP</span>
+<p class="text-on-surface-variant font-label-sm text-label-sm leading-relaxed">
+                    PRECISION ENGINEERING MEASURED IN MICRONS. PIONEERING THE FUTURE OF HIGH-STAKES TECHNOLOGY.
+                </p>
+</div>
+<div class="space-y-4">
+<h6 class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Company</h6>
+<nav class="flex flex-col space-y-2">
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">About Us</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Careers</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Newsroom</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Sustainability</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h6 class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Services</h6>
+<nav class="flex flex-col space-y-2">
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Aerospace</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Automotive</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Infrastructure</a>
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary transition-all" href="#">Data Centers</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h6 class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Connect</h6>
+<div class="flex space-x-4 mb-4">
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:border-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:border-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Join our newsletter for quarterly technical insights.</p>
+<div class="flex">
+<input class="flex-1 border-outline-variant focus:border-primary focus:ring-0 rounded-none text-label-sm px-3 bg-transparent" placeholder="Email" type="email"/>
+<button class="bg-primary text-white p-2">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant text-center md:text-left">
+                © 2024 FLUX CORP. PRECISION ENGINEERING MEASURED IN MICRONS.
+            </p>
+</div>
+</footer>
+<script>
+        // Simple scroll observer for animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+
+        // Kinetic underlines are handled by CSS classes
+    </script>
+</body></html>
