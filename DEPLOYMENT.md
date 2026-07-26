@@ -161,7 +161,53 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 - Configure log rotation for PM2 and Nginx logs
 - Monitor disk space for uploads directory
 
-## 10. Environment-Specific Notes
+## 10. Vercel (Frontend Only)
+
+The repo includes `vercel.json` so Vercel installs and builds the **client** app correctly.
+
+### Deploy steps
+
+1. Push the repo to GitHub (`RahulKirad/Flux`)
+2. Import the project in [Vercel](https://vercel.com)
+3. Leave **Root Directory** empty (repo root)
+4. Vercel reads `vercel.json` automatically:
+   - `installCommand`: `npm --prefix client install`
+   - `buildCommand`: `npm --prefix client run build`
+   - `outputDirectory`: `client/dist`
+
+### After deploy
+
+- The public website loads from Vercel
+- **Admin CMS and dynamic API data** need the Node.js backend hosted separately (Hostinger VPS, Railway, Render, etc.)
+
+### Connect Vercel frontend to your API
+
+When your API is live (example: `https://api.yourdomain.com`):
+
+1. Vercel → Project → **Settings** → **Environment Variables**
+2. Add: `VITE_API_URL` = `https://api.yourdomain.com`
+3. Redeploy
+
+On the API server, set:
+
+```env
+CLIENT_URL=https://your-vercel-app.vercel.app
+```
+
+(or your custom domain)
+
+### Full stack on one VPS (alternative)
+
+Build the client, then run only the API with `NODE_ENV=production`. Express serves `client/dist` and `/api` from the same server — no Vercel needed for frontend.
+
+```bash
+cd client && npm run build
+cd ../server && NODE_ENV=production pm2 start index.js --name flux-corp
+```
+
+---
+
+## 11. Environment-Specific Notes
 
 ### Docker (Optional)
 
