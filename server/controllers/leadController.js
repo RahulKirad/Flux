@@ -1,9 +1,47 @@
 import leadRepository from '../repositories/leadRepository.js';
+import serviceRepository from '../repositories/serviceRepository.js';
+import { sendLeadNotification } from '../services/emailService.js';
 import pool from '../config/database.js';
 import XLSX from 'xlsx';
 
+function formatServiceMessage(serviceName, message) {
+  const trimmed = (message || '').trim();
+  const prefix = `Service inquiry: ${serviceName}`;
+
+  if (!serviceName) return trimmed;
+  if (trimmed.toLowerCase().startsWith('service inquiry:')) return trimmed;
+  if (trimmed.toLowerCase().startsWith('service:')) return trimmed;
+
+  return `${prefix}\n\n${trimmed}`;
+}
+
 export const createLead = async (req, res) => {
-  const lead = await leadRepository.create(req.body);
+  const payload = { ...req.body };
+  const serviceSlug = payload.service_slug;
+  const serviceName = payload.service_name;
+
+  delete payload.service_slug;
+  delete payload.service_name;
+
+  if ((!payload.service_id || Number(payload.service_id) === 0) && serviceSlug) {
+    const service = await serviceRepository.findBySlug(serviceSlug);
+    if (service) payload.service_id = service.id;
+  }
+
+  if (Number(payload.service_id) === 0) {
+    delete payload.service_id;
+  }
+
+  if (serviceName) {
+    payload.message = formatServiceMessage(serviceName, payload.message);
+  }
+
+  const lead = await leadRepository.create(payload);
+
+  sendLeadNotification(lead, { serviceName, serviceSlug }).catch((error) => {
+    console.error('Lead notification email failed:', error.message);
+  });
+
   res.status(201).json({ success: true, data: lead, message: 'Thank you! We will contact you soon.' });
 };
 
