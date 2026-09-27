@@ -1,0 +1,24 @@
+-- Flux Corp: Users Table
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  role_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  avatar VARCHAR(255),
+  phone VARCHAR(20),
+  is_active TINYINT(1) DEFAULT 1,
+  last_login TIMESTAMP NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT,
+  INDEX idx_users_email (email),
+  INDEX idx_users_role (role_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed Data (password: Admin@123)
+INSERT INTO users (role_id, name, email, password, phone) VALUES
+(1, 'Super Admin', 'admin@fluxcorp.com', '$2a$10$rQZ8K8K8K8K8K8K8K8K8Ou8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K', '+91-9876543210'),
+(2, 'Admin User', 'admin.user@fluxcorp.com', '$2a$10$rQZ8K8K8K8K8K8K8K8K8Ou8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K', '+91-9876543211'),
+(3, 'Content Manager', 'content@fluxcorp.com', '$2a$10$rQZ8K8K8K8K8K8K8K8K8Ou8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K', '+91-9876543212'),
+(4, 'Sales Manager', 'sales@fluxcorp.com', '$2a$10$rQZ8K8K8K8K8K8K8K8K8Ou8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K8K', '+91-9876543213');

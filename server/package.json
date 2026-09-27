@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "node --watch index.js",
+    "migrate": "node scripts/migrate.js",
+    "db:setup": "node scripts/migrate.js && node scripts/seedAdmin.js",
+    "db:create": "node scripts/createDatabase.js",
+    "seed:admin": "node scripts/seedAdmin.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

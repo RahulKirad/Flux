@@ -16,6 +16,7 @@ import careerRoutes from './routes/careerRoutes.js';
 import leadRoutes from './routes/leadRoutes.js';
 import mediaRoutes from './routes/mediaRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
+import siteContentRoutes from './routes/siteContentRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -63,6 +64,7 @@ app.use('/api/careers', careerRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/site-content', siteContentRoutes);
 
 if (isProduction) {
   const clientDist = path.join(__dirname, '../client/dist');
