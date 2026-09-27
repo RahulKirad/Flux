@@ -4,7 +4,7 @@ import userRepository from '../repositories/userRepository.js';
 
 class AuthService {
   async login(email, password) {
-    const user = await userRepository.findByEmail(email);
+    const user = await userRepository.findByLogin(email);
     if (!user) throw { statusCode: 401, message: 'Invalid credentials' };
 
     const isValid = await bcrypt.compare(password, user.password);

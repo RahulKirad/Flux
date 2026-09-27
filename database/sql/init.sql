@@ -1,6 +1,6 @@
 -- Flux Corp: Master Database Setup
--- Prefer the single-file import instead:
---   mysql -u root -p < database/flux_corp.sql
+-- Preferred:  cd server && npm run migrate
+-- Alternative single-file import:  mysql -u root -p < database/flux_corp.sql
 --
 -- This file is kept for modular imports from the sql/ folder.
 

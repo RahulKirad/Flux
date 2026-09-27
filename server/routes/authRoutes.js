@@ -8,8 +8,22 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 const router = Router();
 
 router.post('/login', [
-  body('email').isEmail().normalizeEmail(),
-  body('password').notEmpty(),
+  body('password').notEmpty().withMessage('Password is required'),
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Username or email is required')
+    .custom((value) => {
+      const login = String(value).trim();
+      if (login.toLowerCase() === 'admin') return true;
+      if (login.includes('@')) {
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(login);
+        if (!ok) throw new Error('Enter a valid email or username admin');
+        return true;
+      }
+      if (login.length >= 2) return true;
+      throw new Error('Enter a valid email or username');
+    }),
   validate,
 ], asyncHandler(login));
 
