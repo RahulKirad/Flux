@@ -2,6 +2,7 @@ import siteContentService from '../services/siteContentService.js';
 
 export const getPublicSiteContent = async (_req, res) => {
   const data = await siteContentService.getMerged();
+  res.set('Cache-Control', 'no-store');
   res.json({ success: true, data });
 };
 

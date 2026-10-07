@@ -23,6 +23,86 @@ export const SITE_CONTENT_DEFAULTS = {
     headline: 'Get in Touch',
     subheadline: 'Request a consultation or quote for your next project.',
   },
+  pages: {
+    home: {
+      label: 'Home',
+      title: 'Engineering the Future of Mobility',
+      subtitle:
+        'Integrated engineering design, composites, prototyping, and manufacturing for bus body and railway parts.',
+      body: '',
+      bannerImage: '',
+    },
+    about: {
+      label: 'About Us',
+      title: 'Integrated Engineering Solutions',
+      subtitle: 'Research, specification, prototyping, and fully assembled parts for bus body and railway manufacturing.',
+      body: '',
+      bannerImage: '',
+    },
+    services: {
+      label: 'Capabilities',
+      title: 'Our Services',
+      subtitle: 'End-to-end engineering from design through series production.',
+      body: '',
+      bannerImage: '',
+    },
+    projects: {
+      label: 'Portfolio',
+      title: 'Our Projects',
+      subtitle: 'Proven engineering across bus body lightweighting, railway interiors, and industrial applications.',
+      body: '',
+      bannerImage: '',
+    },
+    industries: {
+      label: 'Industries Served',
+      title: 'Sectors We Serve',
+      subtitle: 'Integrated solutions tailored to transportation and industrial regulatory environments.',
+      body: '',
+      bannerImage: '',
+    },
+    'case-studies': {
+      label: 'Portfolio',
+      title: 'Case Studies',
+      subtitle: 'Real-world results demonstrating our integrated engineering capabilities.',
+      body: '',
+      bannerImage: '',
+    },
+    certifications: {
+      label: 'Compliance',
+      title: 'Certifications & Standards',
+      subtitle: 'Quality, safety, and regulatory approvals for automotive and railway manufacturing.',
+      body: '',
+      bannerImage: '',
+    },
+    facilities: {
+      label: 'Manufacturing',
+      title: 'Our Facilities',
+      subtitle: 'State-of-the-art equipment in Chikhali and Chakan, Pune — scalable from prototype to production.',
+      body: '',
+      bannerImage: '',
+    },
+    careers: {
+      label: 'Careers',
+      title: 'Build With Us',
+      subtitle: 'Join a team delivering integrated engineering for mobility and infrastructure.',
+      body: '',
+      bannerImage: '',
+    },
+    blog: {
+      label: 'Insights',
+      title: 'Engineering Blog',
+      subtitle: 'In-depth articles for engineers, procurement professionals, and decision-makers.',
+      body: '',
+      bannerImage: '',
+    },
+    contact: {
+      label: 'Contact',
+      title: 'Get In Touch',
+      subtitle: 'Project consultations, technical inquiries, and partnership opportunities.',
+      body: '',
+      bannerImage: '',
+    },
+  },
   assets: {
     'hero.video': '',
     'hero.poster': '',
@@ -43,7 +123,7 @@ export function deepMergeContent(base, override) {
     const val = override[key];
     if (val && typeof val === 'object' && !Array.isArray(val)) {
       out[key] = deepMergeContent(base[key] || {}, val);
-    } else if (val !== undefined && val !== null && val !== '') {
+    } else if (val !== undefined && val !== null) {
       out[key] = val;
     }
   }

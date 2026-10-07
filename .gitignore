@@ -4,6 +4,9 @@ server/uploads/*
 !server/uploads/.gitkeep
 client/node_modules/
 client/dist/
+client/.env
+client/.env.*
+!client/.env.example
 node_modules/
 .DS_Store
 *.log
