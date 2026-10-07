@@ -23,25 +23,42 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const isProduction = process.env.NODE_ENV === 'production';
+
+function normalizeOrigin(value) {
+  return typeof value === 'string' ? value.trim().replace(/\/$/, '') : '';
+}
+
+const allowedOrigins = new Set(
+  [
+    process.env.CLIENT_URL,
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://fluxcorporation.in',
+    'https://www.fluxcorporation.in',
+  ]
+    .map(normalizeOrigin)
+    .filter(Boolean),
+);
 
 app.use(
   cors({
     origin(origin, callback) {
-      const allowed = [
-        process.env.CLIENT_URL,
-        'http://localhost:5173',
-        'http://localhost:4173',
-      ].filter(Boolean);
-
-      if (!origin || allowed.includes(origin) || /\.vercel\.app$/i.test(origin)) {
+      if (!origin) {
         callback(null, true);
         return;
       }
 
-      callback(new Error('Not allowed by CORS'));
+      if (allowedOrigins.has(normalizeOrigin(origin))) {
+        callback(null, true);
+        return;
+      }
+
+      const err = new Error('Not allowed by CORS');
+      err.statusCode = 403;
+      callback(err);
     },
     credentials: true,
+    optionsSuccessStatus: 204,
   }),
 );
 app.use(express.json({ limit: '10mb' }));
@@ -65,20 +82,6 @@ app.use('/api/leads', leadRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/site-content', siteContentRoutes);
-
-if (isProduction) {
-  const clientDist = path.join(__dirname, '../client/dist');
-  app.use(express.static(clientDist));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
-      next();
-      return;
-    }
-    res.sendFile(path.join(clientDist, 'index.html'), (err) => {
-      if (err) next(err);
-    });
-  });
-}
 
 app.use(notFound);
 app.use(errorHandler);

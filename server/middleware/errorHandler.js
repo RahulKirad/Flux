@@ -9,10 +9,17 @@ export const errorHandler = (err, req, res, _next) => {
     return res.status(409).json({ success: false, message: 'Duplicate entry found' });
   }
 
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(err.statusCode || 403).json({ success: false, message: 'Not allowed by CORS' });
+  }
+
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
-    message: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message,
+    message:
+      process.env.NODE_ENV === 'production' && statusCode >= 500
+        ? 'Internal server error'
+        : err.message,
   });
 };
 
