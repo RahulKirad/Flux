@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO settings (setting_key, setting_value, setting_group) VALUES
-('company_name', 'Flux Corp', 'company'),
+('company_name', 'Flux Corporation', 'company'),
 ('company_tagline', 'Engineering Excellence. Manufacturing Innovation.', 'company'),
-('company_email', 'info@fluxcorp.com', 'company'),
+('company_email', 'Info@fluxcorporation.in', 'company'),
 ('company_phone', '+91-20-12345678', 'company'),
-('company_address', 'Plot No. 45, MIDC Chikhali, Pune - 411062, Maharashtra, India', 'company'),
+('company_address', 'Registered office: Chikhali, Pune. Plant 1: Chakan MIDC, Pune. Plant 2: Bhosari MIDC, Pune.', 'company'),
 ('company_logo', '/uploads/logo/flux-corp-logo.png', 'company'),
 ('company_favicon', '/uploads/logo/favicon.ico', 'company'),
 ('vision', 'To be the most trusted engineering and manufacturing partner for automotive, railway, and industrial sectors globally.', 'company'),

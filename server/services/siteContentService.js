@@ -21,6 +21,10 @@ class SiteContentService {
       merged.assets = merged.assets || {};
       if (!merged.assets['hero.video']) merged.assets['hero.video'] = merged.hero.videoUrl;
     }
+    if (merged.hero?.videoUrl2) {
+      merged.assets = merged.assets || {};
+      if (!merged.assets['hero.video2']) merged.assets['hero.video2'] = merged.hero.videoUrl2;
+    }
     return merged;
   }
 
@@ -29,6 +33,9 @@ class SiteContentService {
     const next = deepMergeContent(deepMergeContent(SITE_CONTENT_DEFAULTS, current), partial);
     if (partial.hero?.videoUrl) {
       next.assets = { ...next.assets, 'hero.video': partial.hero.videoUrl };
+    }
+    if (partial.hero?.videoUrl2) {
+      next.assets = { ...next.assets, 'hero.video2': partial.hero.videoUrl2 };
     }
     await settingsRepository.upsert(SITE_CONTENT_KEY, JSON.stringify(next), 'site_content');
     return next;
