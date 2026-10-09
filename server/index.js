@@ -18,6 +18,7 @@ import mediaRoutes from './routes/mediaRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import siteContentRoutes from './routes/siteContentRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import { runPendingMigrations } from './scripts/migrate.js';
 
 dotenv.config();
 
@@ -87,8 +88,17 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Flux Corp API running on port ${PORT}`);
+
+async function start() {
+  await runPendingMigrations();
+  app.listen(PORT, () => {
+    console.log(`Flux Corp API running on port ${PORT}`);
+  });
+}
+
+start().catch((err) => {
+  console.error('Server failed to start (migrations):', err.message || err);
+  process.exit(1);
 });
 
 export default app;

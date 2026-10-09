@@ -1,13 +1,13 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const migrationsDir = path.join(__dirname, '../../database/migrations');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dbName = process.env.DB_NAME || 'flux_corp';
 const baseConfig = {
@@ -15,6 +15,34 @@ const baseConfig = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
 };
+
+async function pathExists(dir) {
+  try {
+    const stat = await fs.stat(dir);
+    return stat.isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+async function resolveMigrationsDir() {
+  const candidates = [
+    path.join(__dirname, '../../database/migrations'),
+    path.join(__dirname, '../database/migrations'),
+    path.join(process.cwd(), 'database/migrations'),
+    path.join(process.cwd(), '../database/migrations'),
+  ];
+
+  for (const dir of candidates) {
+    if (await pathExists(dir)) {
+      return dir;
+    }
+  }
+
+  throw new Error(
+    `Could not find database/migrations. Looked in:\n${candidates.map((d) => `  - ${d}`).join('\n')}`,
+  );
+}
 
 async function ensureDatabase() {
   const conn = await mysql.createConnection(baseConfig);
@@ -39,14 +67,36 @@ async function getAppliedMigrations(conn) {
   return new Set(rows.map((r) => r.name));
 }
 
-async function listMigrationFiles() {
+async function listMigrationFiles(migrationsDir) {
   const entries = await fs.readdir(migrationsDir);
   return entries
     .filter((f) => f.endsWith('.sql'))
     .sort((a, b) => a.localeCompare(b));
 }
 
-async function runMigration(conn, filename) {
+async function tableExists(conn, tableName) {
+  const [rows] = await conn.execute(
+    `SELECT 1 FROM information_schema.tables
+     WHERE table_schema = ? AND table_name = ?
+     LIMIT 1`,
+    [dbName, tableName],
+  );
+  return rows.length > 0;
+}
+
+async function baselineExistingDatabase(conn, files) {
+  const applied = await getAppliedMigrations(conn);
+  if (applied.size > 0) return applied;
+  if (!(await tableExists(conn, 'roles'))) return applied;
+
+  console.log('Existing database found. Recording current migration files as already applied.');
+  for (const file of files) {
+    await conn.execute('INSERT IGNORE INTO schema_migrations (name) VALUES (?)', [file]);
+  }
+  return new Set(files);
+}
+
+async function runMigration(conn, migrationsDir, filename) {
   const filePath = path.join(migrationsDir, filename);
   const sql = await fs.readFile(filePath, 'utf8');
   if (!sql.trim()) {
@@ -64,53 +114,53 @@ async function runMigration(conn, filename) {
   }
 }
 
-async function main() {
+export async function runPendingMigrations() {
+  const migrationsDir = await resolveMigrationsDir();
   console.log(`Flux Corp — database migrations (database: ${dbName})`);
+  console.log(`Migrations folder: ${migrationsDir}`);
 
-  try {
-    await ensureDatabase();
-  } catch (err) {
-    if (err.code === 'ECONNREFUSED' || err.errno === 2002) {
-      console.error('\nCould not connect to MySQL. Start MySQL and check server/.env (DB_HOST, DB_USER, DB_PASSWORD).\n');
-      process.exit(1);
-    }
-    throw err;
-  }
+  await ensureDatabase();
 
   const conn = await mysql.createConnection({ ...baseConfig, database: dbName, multipleStatements: true });
-  await ensureMigrationsTable(conn);
+  try {
+    await ensureMigrationsTable(conn);
 
-  const applied = await getAppliedMigrations(conn);
-  const files = await listMigrationFiles();
-
-  if (files.length === 0) {
-    console.error(`No .sql files found in ${migrationsDir}`);
-    process.exit(1);
-  }
-
-  let ran = 0;
-  for (const file of files) {
-    if (applied.has(file)) {
-      console.log(`  skip  ${file}`);
-      continue;
+    const files = await listMigrationFiles(migrationsDir);
+    if (files.length === 0) {
+      throw new Error(`No .sql files found in ${migrationsDir}`);
     }
-    console.log(`  apply ${file}`);
-    await runMigration(conn, file);
-    ran += 1;
-  }
 
-  await conn.end();
+    const applied = await baselineExistingDatabase(conn, files);
+    let ran = 0;
 
-  if (ran === 0) {
-    console.log('\nDatabase is up to date.');
-  } else {
-    console.log(`\nApplied ${ran} migration(s).`);
-    console.log('Optional: cd server && npm run seed:admin  (admin / admin@Flux2026)');
+    for (const file of files) {
+      if (applied.has(file)) {
+        console.log(`  skip  ${file}`);
+        continue;
+      }
+      console.log(`  apply ${file}`);
+      await runMigration(conn, migrationsDir, file);
+      ran += 1;
+    }
+
+    if (ran === 0) {
+      console.log('Database is up to date.');
+    } else {
+      console.log(`Applied ${ran} migration(s).`);
+    }
+
+    return { ran, skipped: files.length - ran, dir: migrationsDir };
+  } finally {
+    await conn.end();
   }
 }
 
-main().catch((err) => {
-  console.error('\nMigration failed:', err.message || err);
-  if (err.sql) console.error(err.sql.slice(0, 200));
-  process.exit(1);
-});
+const isCli = process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
+
+if (isCli) {
+  runPendingMigrations().catch((err) => {
+    console.error('\nMigration failed:', err.message || err);
+    if (err.sql) console.error(err.sql.slice(0, 200));
+    process.exit(1);
+  });
+}

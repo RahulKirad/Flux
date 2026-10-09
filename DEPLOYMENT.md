@@ -12,13 +12,15 @@ Consultation forms and `/admin` **must** talk to the live API. Set the frontend 
 ## 1. Database (MySQL)
 
 1. Set `DB_*` in the API environment (`server/.env`).
-2. Run migrations:
+2. Migrations run **automatically** when the API starts (`npm start` / `node index.js`).
+   Pending files in `database/migrations/*.sql` are applied once and recorded in `schema_migrations`.
+   To run them manually:
 
    ```bash
    cd server && npm run migrate
    ```
 
-   (Creates `flux_corp` if needed and applies `database/migrations/*.sql`.)
+   Add new schema changes as the next numbered file (for example `021_feature.sql`). Do not edit a file that already ran in production.
 
 ## 2. API server
 

@@ -4,7 +4,9 @@ Migrations run in **filename order** (`001_…`, `002_…`, …).
 
 ## Apply all pending migrations
 
-From the `server` folder (requires MySQL running and `server/.env`):
+Pending files run automatically when the API starts (`npm start` or `node index.js`).
+
+To run them by hand from the `server` folder (requires MySQL and `server/.env`):
 
 ```bash
 cd server
